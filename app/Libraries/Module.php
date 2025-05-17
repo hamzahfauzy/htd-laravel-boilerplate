@@ -49,7 +49,7 @@ class Module
         }
         else
         {
-            if(is_dir(base_path('app/'.$moduleName)))
+            if(is_dir(base_path('app/Modules/'.$moduleName)))
             {
                 $find['modules'][] = [
                     'name' => $moduleName,

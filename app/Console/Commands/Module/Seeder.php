@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class Seeder extends Command
 {
-    protected $signature = 'module:make-seeder {name} {module}';
+    protected $signature = 'module:make-seeder {module} {name}';
     protected $description = 'Create a new seeder inside a custom module folder';
 
     public function handle()
