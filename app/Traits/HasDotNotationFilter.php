@@ -23,6 +23,22 @@ trait HasDotNotationFilter
     }
 
     /**
+     * Apply OR where clause with dot notation support.
+     */
+    public function scopeOrWhereDot(Builder $query, string $field, string $operator = '=', $value = null): Builder
+    {
+        if (str_contains($field, '.')) {
+            [$relation, $column] = explode('.', $field, 2);
+
+            return $query->orWhereHas($relation, function ($q) use ($column, $operator, $value) {
+                $q->where($column, $operator, $value);
+            });
+        }
+
+        return $query->orWhere($field, $operator, $value);
+    }
+
+    /**
      * Apply multiple filters from array.
      * Example: ['name' => 'John', 'profile.code' => 'LIKE:%123%']
      */
