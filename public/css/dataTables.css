@@ -1,0 +1,66 @@
+/* .dt-container > div.row.mt-2.justify-content-between:first-child,
+.dt-container > div.row.mt-2.justify-content-between:nth-child(3) {
+    padding-left: 25px;
+    padding-right: 25px;
+} */
+
+.dt-container {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.dt-container > div.row.mt-2.justify-content-between:nth-child(3) {
+    padding-bottom:25px;
+}
+
+.table > :not(:first-child) {
+    border-top:1px solid #d9dee3;
+}
+
+table.dataTable thead > tr > th,
+table.dataTable thead > tr > td {
+    padding-block: 20px;
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order {
+    opacity: 0;
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc:hover span.dt-column-order {
+    opacity: 1;
+}
+
+div.dt-container div.dt-length, div.dt-container div.dt-search {
+    margin-block: 1.5rem;
+}
+div.dt-container div.dt-length .form-select, div.dt-container div.dt-search .form-control {
+    padding: .543rem .9375rem;
+}
+
+div.dt-container div.dt-length .form-select {
+    width: 80px;
+}
+
+table.dataTable th.dt-type-numeric, table.dataTable th.dt-type-date, table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date {
+    text-align: left;
+}
+
+table.dataTable th.dt-type-numeric div.dt-column-header, table.dataTable th.dt-type-numeric div.dt-column-footer, table.dataTable th.dt-type-date div.dt-column-header, table.dataTable th.dt-type-date div.dt-column-footer, table.dataTable td.dt-type-numeric div.dt-column-header, table.dataTable td.dt-type-numeric div.dt-column-footer, table.dataTable td.dt-type-date div.dt-column-header, table.dataTable td.dt-type-date div.dt-column-footer {
+    flex-direction: row;
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc:hover, table.dataTable thead > tr > th.dt-orderable-desc:hover, table.dataTable thead > tr > td.dt-orderable-asc:hover, table.dataTable thead > tr > td.dt-orderable-desc:hover {
+    outline: 0;
+}
+
+@media screen and (width <= 767px) {
+    table.dataTable.table-responsive {
+        display: block;
+    }
+}
+
+@media screen and (max-width:767px) {
+    div.dt-container div.dt-length, div.dt-container div.dt-search {
+        margin-block:unset;
+    }
+}

@@ -1,0 +1,26 @@
+.detail-container {
+    border: 1px solid rgba(212, 212, 212, 1);
+    border-radius: 8px;
+}
+
+.item-container {
+    padding:10px;
+}
+
+.item-container:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.item-container:last-child {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.item-container:nth-child(odd) {
+    background-color: #eaeaea;
+}
+
+.item-container .item-label {
+    width: 150px;
+}

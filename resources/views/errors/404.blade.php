@@ -1,0 +1,1 @@
+{{\App\Libraries\Theme::render('errors.404')}}
