@@ -94,7 +94,13 @@ class Module
     static function register()
     {
         $modules = Module::getEnabled();
+        $menu_group = explode(',', config('app.menu_group', '')) ?? [];
         $groupedMenu = [];
+        foreach($menu_group as $menu)
+        {
+            $groupedMenu[$menu] = [];
+        }
+        
         foreach($modules as $module)
         {
             $providerClass = "App\\Modules\\{$module['name']}\\Providers\\{$module['name']}ServiceProvider";

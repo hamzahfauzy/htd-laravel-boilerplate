@@ -123,6 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    'theme' => ENV('APP_THEME', 'default')
+    'theme' => env('APP_THEME', 'default'),
+    'menu_group' => env('APP_MENU_GROUP', '')
 
 ];
