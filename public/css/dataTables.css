@@ -53,14 +53,14 @@ table.dataTable thead > tr > th.dt-orderable-asc:hover, table.dataTable thead > 
     outline: 0;
 }
 
-@media screen and (width <= 767px) {
-    table.dataTable.table-responsive {
-        display: block;
-    }
+table.dataTable.table-responsive {
+    display: block;
+}
+/* @media screen and (width <= 767px) {
 }
 
 @media screen and (max-width:767px) {
     div.dt-container div.dt-length, div.dt-container div.dt-search {
         margin-block:unset;
     }
-}
+} */

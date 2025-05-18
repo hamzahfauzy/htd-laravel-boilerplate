@@ -57,7 +57,16 @@ class DataTable
                 (is_array($field) && !isset($field['_searchable'])) ||
                 ($keyField == '_action')
             ) continue;
-            $search_columns[] = $keyField;
+
+            $keyField = is_string($field['_searchable']) || is_array($field['_searchable']) ? $field['_searchable'] : $keyField;
+            if(is_array($keyField))
+            {
+                $search_columns = array_merge($search_columns, $keyField);
+            }
+            else
+            {
+                $search_columns[] = $keyField;
+            }
         }
 
         if(count($search_columns))
