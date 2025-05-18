@@ -25,3 +25,5 @@ yarn-error.log
 /app/Modules/*
 !/app/Modules/Base
 !/app/Modules/Cms
+
+/public/modules
