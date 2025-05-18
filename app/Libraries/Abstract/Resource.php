@@ -15,6 +15,7 @@ abstract class Resource
     protected static ?string $navigationIcon = null;
     protected static ?string $navigationGroup = null;
     protected static ?string $navigationLabel = null;
+    protected static ?int $navigationOrder = 1;
     protected static ?string $slug = null;
     protected static ?string $routeGroup = null;
     protected static $model = null;
@@ -31,6 +32,11 @@ abstract class Resource
     public static function getNavigationLabel()
     {
         return static::$navigationLabel;
+    }
+
+    public static function getNavigationOrder()
+    {
+        return static::$navigationOrder;
     }
 
     public static function getNavigationIcon()
