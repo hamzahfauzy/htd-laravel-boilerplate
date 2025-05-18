@@ -3,11 +3,13 @@
 namespace App\Libraries\Abstract;
 
 use App\Http\Middleware\AllowedRoute;
+use App\Libraries\Components\Action;
 use App\Libraries\Components\Button;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-abstract class Resource {
+abstract class Resource
+{
 
     protected static ?string $breadcrumb = null;
     protected static ?string $navigationIcon = null;
@@ -24,26 +26,23 @@ abstract class Resource {
     private static $additionalStyles = [];
     private static $additionalScripts = [];
 
-    public static function mount()
-    {
-
-    }
+    public static function mount() {}
 
     public static function getNavigationLabel()
     {
         return static::$navigationLabel;
     }
-    
+
     public static function getNavigationIcon()
     {
         return static::$navigationIcon;
     }
-    
+
     public static function getNavigationGroup()
     {
         return static::$navigationGroup;
     }
-    
+
     public static function getBreadcrumb()
     {
         return static::$breadcrumb;
@@ -77,67 +76,54 @@ abstract class Resource {
 
     public static function registerRoutes()
     {
-        Route::name(static::$routeGroup.'.')->middleware(['web','auth',AllowedRoute::class])->group(fn () => static::routes());
+        Route::name(static::$routeGroup . '.')->middleware(['web', 'auth', AllowedRoute::class])->group(fn() => static::routes());
     }
 
     public static function routes()
     {
         Route::name(static::$slug . '.')
             ->prefix(static::$slug)
-            ->group(function (){
+            ->group(function () {
                 foreach (static::getPages() as $name => $page) {
-                    if(in_array($page->getRoute(),['/','create']))
-                    {
+                    if (in_array($page->getRoute(), ['/', 'create'])) {
 
-                        if($page->getRoute() == 'create')
-                        {
-                            Route::match(['GET','POST'], $page->getRoute(), function(Request $request) use ($page){
-                                if($request->isMethod('POST'))
-                                {
+                        if ($page->getRoute() == 'create') {
+                            Route::match(['GET', 'POST'], $page->getRoute(), function (Request $request) use ($page) {
+                                if ($request->isMethod('POST')) {
                                     return static::store($request);
                                 }
 
                                 return $page->render();
-
                             })->name($name);
-                        }
-                        else
-                        {
-                            Route::get($page->getRoute(), function() use ($page){
+                        } else {
+                            Route::get($page->getRoute(), function () use ($page) {
                                 return $page->render();
                             })
-                            ->name($name);
+                                ->name($name);
                         }
-                    }
-                    else
-                    {
-                        if($page->getRoute() == '{id}/edit')
-                        {
-                            Route::match(['GET','PUT'], $page->getRoute(), function(Request $request, $id) use ($page){
-                                if($request->isMethod('PUT'))
-                                {
+                    } else {
+                        if ($page->getRoute() == '{id}/edit') {
+                            Route::match(['GET', 'PUT'], $page->getRoute(), function (Request $request, $id) use ($page) {
+                                if ($request->isMethod('PUT')) {
                                     return static::update($request, $id);
                                 }
 
                                 return $page->render($id);
                             })->name($name);
-                        }
-                        else
-                        {
-                            Route::get($page->getRoute(), function($id) use ($page){
+                        } else {
+                            Route::get($page->getRoute(), function ($id) use ($page) {
                                 return $page->render($id);
                             })
-                            ->name($name);
+                                ->name($name);
                         }
                     }
                 }
 
-                if(static::$deleteRoute)
-                {
-                    Route::delete('{id}', function(Request $request, $id){
+                if (static::$deleteRoute) {
+                    Route::delete('{id}', function (Request $request, $id) {
                         return static::destroy($request, $id);
                     })
-                    ->name('delete');
+                        ->name('delete');
                 }
             });
     }
@@ -149,7 +135,7 @@ abstract class Resource {
 
     public static function getPageRouteName($key)
     {
-        return static::$routeGroup .'.'. static::$slug .'.'. $key;
+        return static::$routeGroup . '.' . static::$slug . '.' . $key;
     }
 
     public static function table()
@@ -161,7 +147,7 @@ abstract class Resource {
     {
         return [];
     }
-    
+
     public static function detail()
     {
         return [];
@@ -178,12 +164,12 @@ abstract class Resource {
                     'label' => 'Create',
                     'icon' => 'fas fa-fw fa-plus'
                 ]))
-                ->routeName(static::getPageRouteName('create'))
-                ->render()
+                    ->routeName(static::getPageRouteName('create'))
+                    ->render()
             ]
         ];
     }
-    
+
     public static function createHeader()
     {
         return [
@@ -195,12 +181,12 @@ abstract class Resource {
                     'label' => 'Back',
                     'icon' => 'fas fa-fw fa-arrow-left'
                 ]))
-                ->routeName(static::getPageRouteName('index'))
-                ->render()
+                    ->routeName(static::getPageRouteName('index'))
+                    ->render()
             ]
         ];
     }
-    
+
     public static function editHeader()
     {
         return [
@@ -212,8 +198,8 @@ abstract class Resource {
                     'label' => 'Back',
                     'icon' => 'fas fa-fw fa-arrow-left'
                 ]))
-                ->routeName(static::getPageRouteName('index'))
-                ->render()
+                    ->routeName(static::getPageRouteName('index'))
+                    ->render()
             ]
         ];
     }
@@ -229,24 +215,23 @@ abstract class Resource {
                     'label' => 'Back',
                     'icon' => 'fas fa-fw fa-arrow-left'
                 ]))
-                ->routeName(static::getPageRouteName('index'))
-                ->render(),
+                    ->routeName(static::getPageRouteName('index'))
+                    ->render(),
                 (new Button([
                     'url' => static::getPageRoute('edit', ['id' => static::$record?->id]),
                     'class' => 'btn btn-sm btn-warning',
                     'label' => 'Edit',
                     'icon' => 'fas fa-fw fa-pencil'
                 ]))
-                ->routeName(static::getPageRouteName('edit'))
-                ->render(),
+                    ->routeName(static::getPageRouteName('edit'))
+                    ->render(),
             ]
         ];
     }
 
     public static function store(Request $request)
     {
-        if(count(static::createRules()))
-        {
+        if (count(static::createRules())) {
             $request->validate(static::createRules());
         }
 
@@ -256,11 +241,10 @@ abstract class Resource {
 
         return redirect()->route(static::getPageRouteName('detail'), ['id' => $data->id]);
     }
-    
+
     public static function update(Request $request, $id = null)
     {
-        if(count(static::updateRules()))
-        {
+        if (count(static::updateRules())) {
             $request->validate(static::updateRules());
         }
 
@@ -271,7 +255,7 @@ abstract class Resource {
 
         return redirect()->route(static::getPageRouteName('detail'), ['id' => $id]);
     }
-    
+
     public static function destroy(Request $request, $id = null)
     {
         $data = static::$model::find($id);
@@ -286,59 +270,46 @@ abstract class Resource {
     {
         static::$additionalStyles = $additionalStyles;
     }
-    
+
     public static function getStyles()
     {
         return static::$additionalStyles;
     }
-    
+
     public static function addScripts($additionalScripts)
     {
         static::$additionalScripts = $additionalScripts;
     }
-    
+
     public static function getScripts()
     {
         return static::$additionalScripts;
     }
 
-    public static function beforeCreate(Request $request)
-    {
-        
-    }
-    
-    public static function afterCreate(Request $request, $data)
-    {
+    public static function beforeCreate(Request $request) {}
 
-    }
+    public static function afterCreate(Request $request, $data) {}
 
-    public static function beforeUpdate(Request $request, $data)
-    {
-        
-    }
-    
-    public static function afterUpdate(Request $request, $data)
-    {
+    public static function beforeUpdate(Request $request, $data) {}
 
-    }
-    
-    public static function beforeDelete(Request $request, $data)
-    {
-        
-    }
-    
-    public static function afterDelete(Request $request, $data)
-    {
+    public static function afterUpdate(Request $request, $data) {}
 
-    }
+    public static function beforeDelete(Request $request, $data) {}
+
+    public static function afterDelete(Request $request, $data) {}
 
     public static function createRules()
     {
         return [];
     }
-    
+
     public static function updateRules()
     {
         return [];
+    }
+
+    public static function getAction($d)
+    {
+        return Action::render(static::class, $d);
     }
 }
