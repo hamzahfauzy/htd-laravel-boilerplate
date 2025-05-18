@@ -42,13 +42,13 @@
                     </div>
                     </div>
                     <div class="flex-grow-1">
-                    <span class="fw-semibold d-block">John Doe</span>
-                    <small class="text-muted">Admin</small>
+                    <span class="fw-semibold d-block">{{auth()->user()->name}}</span>
+                    <small class="text-muted">{!! auth()->user()->userRoleLabel !!}</small>
                     </div>
                 </div>
                 </a>
             </li>
-            <li>
+            {{-- <li>
                 <div class="dropdown-divider"></div>
             </li>
             <li>
@@ -62,7 +62,7 @@
                 <i class="bx bx-cog me-2"></i>
                 <span class="align-middle">Settings</span>
                 </a>
-            </li>
+            </li> --}}
             <li>
                 <div class="dropdown-divider"></div>
             </li>
