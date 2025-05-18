@@ -1,5 +1,5 @@
 <div class="">
-    <table class="table datatable table-responsive">
+    <table class="table {{$class}} table-responsive">
         <thead>
             <tr>
                 @foreach($columns as $column)

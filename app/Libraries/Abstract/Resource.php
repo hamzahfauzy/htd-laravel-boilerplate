@@ -18,13 +18,15 @@ abstract class Resource {
     protected static $model = null;
     protected static $record = null;
     protected static $records = null;
+    protected static $deleteRoute = true;
+    public static $dataTableClass = 'datatable';
 
     private static $additionalStyles = [];
     private static $additionalScripts = [];
 
     public static function mount()
     {
-        
+
     }
 
     public static function getNavigationLabel()
@@ -130,10 +132,13 @@ abstract class Resource {
                     }
                 }
 
-                Route::delete('{id}', function(Request $request, $id){
-                    return static::destroy($request, $id);
-                })
-                ->name('delete');
+                if(static::$deleteRoute)
+                {
+                    Route::delete('{id}', function(Request $request, $id){
+                        return static::destroy($request, $id);
+                    })
+                    ->name('delete');
+                }
             });
     }
 

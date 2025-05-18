@@ -11,7 +11,7 @@ class DataTable
     {
     }
 
-    public function renderColumn()
+    public function renderColumn($class = 'datatable')
     {
         $fields = $this->fields;
         $columns = ['No.'];
@@ -26,7 +26,7 @@ class DataTable
                 $columns[] = is_array($attr) && isset($attr['label']) ? $attr['label'] : (is_array($attr) && !isset($attr['label']) ? $field : $attr);
             }
         }
-        return view('libraries.datatable.table', compact('columns'))->render();
+        return view('libraries.datatable.table', compact('columns', 'class'))->render();
     }
 
     public function response()
@@ -48,9 +48,19 @@ class DataTable
 
         $columns = [];
         $search_columns = [];
+        $order_columns = [];
         foreach($fields as $key => $field)
         {
-            $columns[] = is_array($field) || is_callable($field) ? $key : $field;
+            $column = is_array($field) || is_callable($field) ? $key : $field;
+            if(is_array($field) && isset($field['_order']))
+            {
+                $order_columns[] = $field['_order'];
+            }
+            else
+            {
+                $order_columns[] = $column;
+            }
+            $columns[] = $column;
             $keyField = is_array($field) ? $key : $field;
             if(
                 (is_array($field) && isset($field['_searchable']) && !$field['_searchable']) || 
@@ -107,9 +117,12 @@ class DataTable
         if($order[0]['column'] > 0)
         {
             $col_order = $order[0]['column']-1;
-            $col_order = $col_order < 0 ? 'id' : $columns[$col_order];
+            $col_order = $col_order < 0 ? 'id' : $order_columns[$col_order];
     
-            $model = $model->orderBy($col_order, $order[0]['dir']);
+            if($col_order)
+            {
+                $model = $model->orderBy($col_order, $order[0]['dir']);
+            }
         }
 
         $total = $model->count();

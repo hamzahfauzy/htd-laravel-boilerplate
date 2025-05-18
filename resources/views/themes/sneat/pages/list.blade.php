@@ -33,7 +33,7 @@
                 <div class="card-header pb-0">
                     @include('libraries.components.header', compact('header'))
                 </div>
-                {!! $datatable->renderColumn() !!}
+                {!! $datatable->renderColumn($resource::$dataTableClass) !!}
             </div>
         </div>
     </div>
