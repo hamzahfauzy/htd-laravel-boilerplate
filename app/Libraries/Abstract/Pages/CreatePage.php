@@ -16,6 +16,7 @@ class CreatePage extends Page
 
     public function render($id = null)
     {
+        $this->resource::mount();
         $header = $this->resource::createHeader();
         $sections = $this->resource::form();
 

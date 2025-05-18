@@ -13,6 +13,18 @@
 <script src="{{asset('js/datatable.js')}}"></script>
 @endpush
 
+@push('styles')
+@foreach ($resource::getStyles() as $style)
+<link rel="stylesheet" href="{{$style}}">
+@endforeach
+@endpush
+
+@push('scripts')
+@foreach ($resource::getScripts() as $script)
+<script src="{{$script}}"></script>
+@endforeach
+@endpush
+
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row justify-content-center">

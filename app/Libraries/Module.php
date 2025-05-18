@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Libraries;
+use Illuminate\Support\Facades\File;
 
 class Module
 {

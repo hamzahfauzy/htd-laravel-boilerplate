@@ -21,6 +21,7 @@ class ListPage extends Page
 
     public function render($id = null)
     {
+        $this->resource::mount();
         $datatable = $this->getTable();
 
         $response = $datatable->response();

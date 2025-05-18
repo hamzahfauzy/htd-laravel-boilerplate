@@ -26,6 +26,8 @@ class Page
 
     public function render($id = null)
     {
+        $this->resource::mount();
+        
         return Theme::render($this->view, [
             'resource' => $this->resource,
             'page' => $this

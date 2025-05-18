@@ -19,6 +19,14 @@ abstract class Resource {
     protected static $record = null;
     protected static $records = null;
 
+    private static $additionalStyles = [];
+    private static $additionalScripts = [];
+
+    public static function mount()
+    {
+        
+    }
+
     public static function getNavigationLabel()
     {
         return static::$navigationLabel;
@@ -267,6 +275,26 @@ abstract class Resource {
         static::afterDelete($request, $data);
 
         return redirect()->route(static::getPageRouteName('index'));
+    }
+
+    public static function addStyles($additionalStyles)
+    {
+        static::$additionalStyles = $additionalStyles;
+    }
+    
+    public static function getStyles()
+    {
+        return static::$additionalStyles;
+    }
+    
+    public static function addScripts($additionalScripts)
+    {
+        static::$additionalScripts = $additionalScripts;
+    }
+    
+    public static function getScripts()
+    {
+        return static::$additionalScripts;
     }
 
     public static function beforeCreate(Request $request)

@@ -15,6 +15,7 @@ class DetailPage extends Page
 
     public function render($id = null)
     {
+        $this->resource::mount();
         $data = $this->resource::getModel()->find($id);
         
         $this->resource::setRecord($data);
