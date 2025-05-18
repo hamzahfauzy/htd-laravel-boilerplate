@@ -75,6 +75,11 @@ abstract class Resource {
         return static::$routeGroup . '.' . static::$slug . '.index';
     }
 
+    public static function getRecord()
+    {
+        return static::$record;
+    }
+
     public static function registerRoutes()
     {
         Route::name(static::$routeGroup.'.')->middleware(['web','auth',AllowedRoute::class])->group(fn () => static::routes());

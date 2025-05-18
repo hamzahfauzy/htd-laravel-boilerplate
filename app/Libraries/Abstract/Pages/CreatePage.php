@@ -20,11 +20,13 @@ class CreatePage extends Page
         $header = $this->resource::createHeader();
         $sections = $this->resource::form();
 
+        $data = $this->resource::getRecord();
+
         return Theme::render($this->view, [
             'resource' => $this->resource,
             'page' => $this,
             'sections' => $sections,
-            'data' => [],
+            'data' => $data,
             'header' => $header,
         ]);
     }
