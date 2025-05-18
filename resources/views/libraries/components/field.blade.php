@@ -38,7 +38,9 @@
 
             @case('select')
                 <select name="{{ $inputName }}" id="{{ $name }}" class="form-control @error($inputName) is-invalid @enderror">
-                    <option value="">- Choose Option -</option>
+                    @if(isset($field['placeholder']))
+                    <option value="">{{$field['placeholder']}}</option>
+                    @endif
                     @foreach ($field['options'] as $key => $option)
                         <option value="{{ $key }}" @selected(old($name, \Arr::get($data, $name, '')) == $key)>{{ $option }}</option>
                     @endforeach
