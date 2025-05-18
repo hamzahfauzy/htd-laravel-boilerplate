@@ -232,6 +232,11 @@ abstract class Resource {
 
     public static function store(Request $request)
     {
+        if(count(static::createRules()))
+        {
+            $request->validate(static::createRules());
+        }
+
         static::beforeCreate($request);
         $data = static::$model::create($request->all());
         static::afterCreate($request, $data);
@@ -241,6 +246,11 @@ abstract class Resource {
     
     public static function update(Request $request, $id = null)
     {
+        if(count(static::updateRules()))
+        {
+            $request->validate(static::updateRules());
+        }
+
         $data = static::$model::find($id);
         static::beforeUpdate($request, $data);
         $data->update($request->all());
@@ -287,5 +297,15 @@ abstract class Resource {
     public static function afterDelete(Request $request, $data)
     {
 
+    }
+
+    public static function createRules()
+    {
+        return [];
+    }
+    
+    public static function updateRules()
+    {
+        return [];
     }
 }

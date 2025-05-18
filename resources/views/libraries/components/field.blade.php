@@ -19,7 +19,7 @@
                     type="{{ $field['type'] }}"
                     name="{{ $inputName }}"
                     id="{{ $name }}"
-                    class="form-control"
+                    class="form-control @error($inputName) is-invalid @enderror"
                     value="{{ $field['type'] != 'password' ? (old($name) ?? \Arr::get($data, $name, '')) : '' }}"
                     @if (!empty($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                     @if (!empty($field['required']) && ($field['type'] == 'password' && \Arr::get($data, $name, '') == '')) required @endif
@@ -30,14 +30,15 @@
                 <textarea
                     name="{{ $inputName }}"
                     id="{{ $name }}"
-                    class="form-control"
+                    class="form-control @error($inputName) is-invalid @enderror"
                     @if (!empty($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                     @if (!empty($field['required'])) required @endif
                 >{{ old($name) ?? \Arr::get($data, $name, '') }}</textarea>
                 @break
 
             @case('select')
-                <select name="{{ $inputName }}" id="{{ $name }}" class="form-control">
+                <select name="{{ $inputName }}" id="{{ $name }}" class="form-control @error($inputName) is-invalid @enderror">
+                    <option value="">- Choose Option -</option>
                     @foreach ($field['options'] as $key => $option)
                         <option value="{{ $key }}" @selected(old($name, \Arr::get($data, $name, '')) == $key)>{{ $option }}</option>
                     @endforeach
@@ -87,16 +88,18 @@
 
             @case('file')
                 <input type="hidden" name="{{ $inputName }}" id="{{ $name }}">
-                <input type="file" name="file_upload" id="{{ $name }}" data-target="{{$name}}" class="form-control libraries-file-upload">
+                <input type="file" name="file_upload_{{$name}}" id="{{ $name }}" data-target="{{$name}}" class="form-control @error('file_upload_'.$inputName) is-invalid @enderror libraries-file-upload">
                 @break
 
             @default
-                <input type="text" name="{{ $inputName }}" id="{{ $name }}" class="form-control" value="{{ old($name, \Arr::get($data, $name, '')) }}">
+                <input type="text" name="{{ $inputName }}" id="{{ $name }}" class="form-control @error($inputName) is-invalid @enderror" value="{{ old($name, \Arr::get($data, $name, '')) }}">
         @endswitch
 
         {{-- Error message --}}
-        @error($name)
-            <div class="text-danger mt-1">{{ $message }}</div>
+        @error($inputName)
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
         @enderror
     </div>
 @endforeach
