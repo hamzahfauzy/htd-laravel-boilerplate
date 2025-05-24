@@ -48,14 +48,16 @@
                 </div>
                 </a>
             </li>
+            @foreach(config('nav_shortcut') as $nav)
+            <li>
+                <a class="dropdown-item" href="{{$nav['url']}}">
+                    <i class="{{$nav['icon']}} me-2"></i>
+                    <span class="align-middle">{{$nav['label']}}</span>
+                </a>
+            </li>
+            @endforeach
             {{-- <li>
                 <div class="dropdown-divider"></div>
-            </li>
-            <li>
-                <a class="dropdown-item" href="#">
-                <i class="bx bx-user me-2"></i>
-                <span class="align-middle">My Profile</span>
-                </a>
             </li>
             <li>
                 <a class="dropdown-item" href="#">

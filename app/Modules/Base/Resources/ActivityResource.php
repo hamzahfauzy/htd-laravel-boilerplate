@@ -41,6 +41,16 @@ class ActivityResource extends Resource
         ];
     }
 
+    public static function getModel()
+    {
+        if(!auth()->user()->roles()->where('name','Super Admin')->exists())
+        {
+            return static::$model::where('created_by', auth()->id());
+        }
+
+        return static::$model;
+    }
+
     public static function getPages()
     {
         $resource = static::class;

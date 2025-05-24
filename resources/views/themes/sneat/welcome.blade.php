@@ -3,7 +3,7 @@
 <div class="container-xxl container-p-y">
     <div class="misc-wrapper">
         <h2 class="mb-2 mx-2">{{__('Welcome')}}</h2>
-        <p class="mb-4 mx-2">{{__('To access this website. Please login')}}</p>
+        <p class="mb-4 mx-2">{{__('Please login to use this application')}}</p>
         <a href="{{route('login')}}" class="btn btn-primary">{{__('Login')}}</a>
         <div class="mt-3">
             <img

@@ -2,8 +2,8 @@
 
 @section('content')
     <!-- /Logo -->
-<h4 class="mb-2">Welcome to Sneat! 👋</h4>
-<p class="mb-4">{{__('Please sign-in to your account and start the adventure')}}</p>
+<h4 class="mb-2 text-center">Welcome to {{config('app.name')}}</h4>
+<p class="mb-4 text-center">{{__('Please sign-in to start the adventure')}}</p>
 
 <form id="formAuthentication" class="mb-3" method="POST" action="{{ route('login') }}">
     @csrf

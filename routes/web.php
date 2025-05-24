@@ -8,7 +8,7 @@ Route::get('/', function () {
     return Theme::render('welcome');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::middleware(Verified::class)->group(function(){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -29,6 +29,11 @@ abstract class Resource
 
     public static function mount() {}
 
+    public static function getNavShortcut()
+    {
+        return [];
+    }
+
     public static function getNavigationLabel()
     {
         return static::$navigationLabel;

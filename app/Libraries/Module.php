@@ -96,6 +96,7 @@ class Module
         $modules = Module::getEnabled();
         $menu_group = explode(',', config('app.menu_group', '')) ?? [];
         $groupedMenu = [];
+        $navShortcut = [];
         foreach($menu_group as $menu)
         {
             $groupedMenu[$menu] = [];
@@ -117,6 +118,7 @@ class Module
                 {
                     $resource = new $resource;
                     $resource->registerRoutes();
+                    $navShortcut = array_merge($navShortcut, $resource->getNavShortcut());
                     $group = $resource->getNavigationGroup();
 
                     if (!isset($groupedMenu[$group])) 
@@ -129,6 +131,9 @@ class Module
             }
         }
 
-        config(['menu' => $groupedMenu]);
+        config([
+            'menu' => $groupedMenu,
+            'nav_shortcut' => $navShortcut
+        ]);
     }
 }
