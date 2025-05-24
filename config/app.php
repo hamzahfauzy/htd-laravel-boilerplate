@@ -124,6 +124,7 @@ return [
     ],
 
     'theme' => env('APP_THEME', 'default'),
-    'menu_group' => env('APP_MENU_GROUP', '')
+    'menu_group' => env('APP_MENU_GROUP', ''),
+    'logo' => env('APP_LOGO', '/assets/img/illustrations/default-logo-transparent.png'),
 
 ];
