@@ -8,20 +8,28 @@
     </li>
 
     @foreach (\App\Libraries\Menu::get() as $group => $items)
-    <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">{{ $group }}</span>
-    </li>
+    <?php
+    $parentGroup = '<li class="menu-header small text-uppercase">
+        <span class="menu-header-text">'.$group.'</span>
+    </li>';
+
+    $childItems = '';
+    ?>
     @foreach ($items as $item)
     @if(auth()->user()->canAccess($item::getRoute()))
-    <li class="menu-item {{request()->routeIs($item::getPageRouteName('*')) ? 'active' : ''}}">
-        <a href="{{route($item::getRoute())}}" class="menu-link">
-            @if($item::getNavigationIcon())
-            <i class="menu-icon tf-icons {{$item::getNavigationIcon() }}"></i>
-            @endif
-            <div data-i18n="Basic">{{ $item::getNavigationLabel() }}</div>
+    <?php $childItems .= '
+    <li class="menu-item '.(request()->routeIs($item::getPageRouteName('*')) ? 'active' : '').'">
+        <a href="'.route($item::getRoute()).'" class="menu-link">
+            '.($item::getNavigationIcon() ? '<i class="menu-icon tf-icons '.$item::getNavigationIcon().'"></i>' : '').'
+            <div data-i18n="Basic">'.$item::getNavigationLabel().'</div>
         </a>
-    </li>
+    </li>';
+    ?>
     @endif
     @endforeach
+
+    @if($childItems)
+    {!! $parentGroup . $childItems !!}
+    @endif
     @endforeach
 </ul>

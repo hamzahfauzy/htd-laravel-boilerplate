@@ -130,7 +130,7 @@ class Module
                 }
             }
         }
-
+        
         config([
             'menu' => $groupedMenu,
             'nav_shortcut' => $navShortcut
