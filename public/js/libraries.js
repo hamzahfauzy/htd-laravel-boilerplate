@@ -4,3 +4,9 @@ $(document).on('click', '.libraries-delete-btn', function(){
         $('form[action="'+$(this).data('url')+'"]').submit()
     }
 })
+
+$(document).ready(function(){
+    $('.select2').select2({
+        theme: 'bootstrap-5'
+    });
+})

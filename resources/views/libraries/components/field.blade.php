@@ -23,6 +23,7 @@
                     value="{{ $field['type'] != 'password' ? (old($name) ?? \Arr::get($data, $name, '')) : '' }}"
                     @if (!empty($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                     @if (!empty($field['required']) && ($field['type'] == 'password' && \Arr::get($data, $name, '') == '')) required @endif
+                    {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}
                 >
                 @break
 
@@ -33,11 +34,23 @@
                     class="form-control @error($inputName) is-invalid @enderror"
                     @if (!empty($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                     @if (!empty($field['required'])) required @endif
+                    {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}
                 >{{ old($name) ?? \Arr::get($data, $name, '') }}</textarea>
                 @break
 
             @case('select')
-                <select name="{{ $inputName }}" id="{{ $name }}" class="form-control @error($inputName) is-invalid @enderror">
+                <select name="{{ $inputName }}" id="{{ $name }}" class="form-control form-select @error($inputName) is-invalid @enderror" {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
+                    @if(isset($field['placeholder']))
+                    <option value="">{{$field['placeholder']}}</option>
+                    @endif
+                    @foreach ($field['options'] as $key => $option)
+                        <option value="{{ $key }}" @selected(old($name, \Arr::get($data, $name, '')) == $key)>{{ $option }}</option>
+                    @endforeach
+                </select>
+                @break
+            
+            @case('select2')
+                <select name="{{ $inputName }}" id="{{ $name }}" class="form-control select2 form-select @error($inputName) is-invalid @enderror" {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
                     @if(isset($field['placeholder']))
                     <option value="">{{$field['placeholder']}}</option>
                     @endif
@@ -51,7 +64,7 @@
                 @foreach ($field['options'] as $key => $option)
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="{{ $name }}[]" id="{{ $name }}_{{ $key }}" value="{{ $key }}"
-                            @if (is_array(old($name, \Arr::get($data, $name, ''))) && in_array($key, old($name, \Arr::get($data, $name, '')))) checked @endif>
+                            @if (is_array(old($name, \Arr::get($data, $name, ''))) && in_array($key, old($name, \Arr::get($data, $name, '')))) checked @endif {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
                         <label class="form-check-label" for="{{ $name }}_{{ $key }}">
                             {{ $option }}
                         </label>
@@ -66,7 +79,7 @@
                     @foreach($featureItems as $label => $item)
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="{{ $inputName }}[]" id="{{ $name }}_{{$featureName}}_{{ $label }}" value="{{$item}}"
-                            @if (is_array(old($name, \Arr::get($data, $name, ''))) && in_array($item, old($name, \Arr::get($data, $name, '')))) checked @endif>
+                            @if (is_array(old($name, \Arr::get($data, $name, ''))) && in_array($item, old($name, \Arr::get($data, $name, '')))) checked @endif {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
                         <label class="form-check-label" for="{{ $name }}_{{$featureName}}_{{ $label }}">
                             {{ ucwords($label) }}
                         </label>
@@ -80,7 +93,7 @@
                 @foreach ($field['options'] as $key => $option)
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="{{ $inputName }}" id="{{ $name }}_{{ $key }}" value="{{ $key }}"
-                            @checked(old($name, \Arr::get($data, $name, '')) == $key)>
+                            @checked(old($name, \Arr::get($data, $name, '')) == $key) {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
                         <label class="form-check-label" for="{{ $name }}_{{ $key }}">
                             {{ $option }}
                         </label>
@@ -94,7 +107,7 @@
                 @break
 
             @default
-                <input type="text" name="{{ $inputName }}" id="{{ $name }}" class="form-control @error($inputName) is-invalid @enderror" value="{{ old($name, \Arr::get($data, $name, '')) }}">
+                <input type="text" name="{{ $inputName }}" id="{{ $name }}" class="form-control @error($inputName) is-invalid @enderror" value="{{ old($name, \Arr::get($data, $name, '')) }}" {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
         @endswitch
 
         {{-- Error message --}}

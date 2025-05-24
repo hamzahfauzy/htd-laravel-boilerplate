@@ -8,10 +8,16 @@
     <div class="col-12 mb-3">
         <div class="card">
             <div class="card-header">
-                {{$sectionLabel}}
+                <h4>{{$sectionLabel}}</h4>
             </div>
             <div class="card-body">
-                @include('libraries.components.field', ['fields' => $fields, 'data' => $data])
+                @if(is_array($fields))
+                @include('libraries.components.field', ['fields' => $fields, 'data' => $data, 'page' => $page])
+                @endif
+
+                @if(is_string($fields))
+                {!! $fields !!}
+                @endif
             </div>
         </div>
     </div>

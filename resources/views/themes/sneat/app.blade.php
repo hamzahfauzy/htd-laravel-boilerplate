@@ -49,7 +49,6 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/libraries.css') }}" />
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
@@ -66,6 +65,8 @@
     <script src="{{ asset('assets/js/config.js') }}"></script>
 
     <link rel="stylesheet" href="{{ asset('css/libraries.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/select2-bootstrap-5-theme.css') }}" />
 
     @stack('styles')
   </head>
@@ -128,6 +129,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/b767cc3895.js" crossorigin="anonymous"></script>
     <script src="{{asset('js/libraries.js')}}"></script>
+    <script src="{{asset('assets/js/select2.js')}}"></script>
     @stack('scripts')
   </body>
 </html>
