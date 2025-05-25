@@ -15,14 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('code')->nullable();
             $table->string('name');
+            $table->string('email')->nullable();
             $table->text('address')->nullable();
             $table->enum('gender', ['MALE','FEMALE'])->nullable();
             $table->string('phone')->nullable();
             $table->json('metadata')->nullable();
+            $table->string('record_type')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('base_users')->onDelete('restrict');
             
             $table->unsignedBigInteger('created_by');

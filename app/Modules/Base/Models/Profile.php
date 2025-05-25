@@ -28,6 +28,8 @@ class Profile extends Model
         'phone',
         'user_id',
         'metadata',
+        'email',
+        'record_type',
         'created_by'
     ];
 
