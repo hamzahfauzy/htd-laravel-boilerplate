@@ -22,6 +22,10 @@ table.dataTable thead > tr > td {
     padding-block: 20px;
 }
 
+table.dataTable tbody > tr > td {
+    white-space: nowrap;
+}
+
 table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order {
     opacity: 0;
 }
