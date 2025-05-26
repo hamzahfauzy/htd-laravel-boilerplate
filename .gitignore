@@ -27,3 +27,4 @@ yarn-error.log
 !/app/Modules/Cms
 
 /public/modules
+/public/print.txt
