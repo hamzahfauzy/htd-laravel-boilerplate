@@ -105,7 +105,7 @@ class Module
         foreach($modules as $module)
         {
             $providerClass = "App\\Modules\\{$module['name']}\\Providers\\{$module['name']}ServiceProvider";
-            $resourceListFile = base_path("App/Modules/{$module['name']}/Config/resources.php");
+            $resourceListFile = base_path("app/Modules/{$module['name']}/Config/resources.php");
             
             if (class_exists($providerClass)) {
                 app()->register($providerClass);
