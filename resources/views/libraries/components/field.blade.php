@@ -22,7 +22,7 @@
                     class="form-control @error($inputName) is-invalid @enderror"
                     value="{{ $field['type'] != 'password' ? (old($name) ?? \Arr::get($data, $name, '')) : '' }}"
                     @if (!empty($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
-                    @if (!empty($field['required']) && ($field['type'] == 'password' && \Arr::get($data, $name, '') == '')) required @endif
+                    @if (!empty($field['required']) || ($field['type'] == 'password' && \Arr::get($data, $name, '') == '')) required @endif
                     {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}
                 >
                 @break
