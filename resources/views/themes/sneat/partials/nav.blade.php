@@ -34,7 +34,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
             <li>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="{{route('profile.index')}}">
                 <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                     <div class="avatar avatar-online">
