@@ -5,6 +5,8 @@ namespace App\Libraries;
 class Dashboard
 {
     private static $components = [];
+    private static $welcomeScreen = null;
+
     static function add($component, $order = 0)
     {
         static::$components[$order][] = $component;
@@ -23,4 +25,15 @@ class Dashboard
 
         return $html;
     }
+
+    static function setWelcomeScreen($welcomeScreen)
+    {
+        static::$welcomeScreen = $welcomeScreen;
+    }
+
+    static function getWelcomeScreen()
+    {
+        return static::$welcomeScreen ?? Theme::render('welcome');
+    }
+
 }

@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Middleware\Verified;
-use App\Libraries\Theme;
+use App\Libraries\Dashboard;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return Theme::render('welcome');
-});
+    return Dashboard::getWelcomeScreen();
+})->name('welcome');
 
 Auth::routes(['register' => false]);
 
