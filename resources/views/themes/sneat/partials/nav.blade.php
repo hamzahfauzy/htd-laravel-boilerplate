@@ -48,7 +48,7 @@
                 </div>
                 </a>
             </li>
-            @foreach(config('nav_shortcut') as $nav)
+            @foreach(\App\Libraries\NavPanel::get() as $nav)
             <li>
                 <a class="dropdown-item" href="{{$nav['url']}}">
                     <i class="{{$nav['icon']}} me-2"></i>
