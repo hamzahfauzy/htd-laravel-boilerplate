@@ -67,6 +67,12 @@
     <link rel="stylesheet" href="{{ asset('css/libraries.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/select2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/select2-bootstrap-5-theme.css') }}" />
+    <style>
+      .avatar img {
+        height: 100% !important;
+        object-fit: cover;
+      }
+    </style>
 
     @stack('styles')
   </head>

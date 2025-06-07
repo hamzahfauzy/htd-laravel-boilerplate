@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -115,5 +116,10 @@ class User extends Authenticatable implements MustVerifyEmail
             ->get()
             ->pluck('route_name')->toArray()
         ;
+    }
+
+    public function getProfileImageUrl()
+    {
+        return $this->profile?->pic_url ? Storage::url($this->profile->pic_url) : asset('assets/img/avatars/1.png');
     }
 }

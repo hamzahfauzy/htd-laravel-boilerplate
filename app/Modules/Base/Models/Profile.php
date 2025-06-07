@@ -30,7 +30,8 @@ class Profile extends Model
         'metadata',
         'email',
         'record_type',
-        'created_by'
+        'created_by',
+        'pic_url'
     ];
 
     /**
