@@ -73,6 +73,14 @@ class UserResource extends Resource {
                     'placeholder' => 'Enter your password',
                     'required' => true,
                 ],
+                'email_verified_at' => [
+                    'label' => 'Verified Email',
+                    'type' => 'checkbox',
+                    'options' => [
+                        1 => 'Verified'
+                    ],
+                    'required' => true,
+                ],
             ],
             'Role Information' => [
                 'roleNames' => [
@@ -159,6 +167,13 @@ class UserResource extends Resource {
         $request->merge([
             'password' => bcrypt($request->password)
         ]);
+
+        if($request->email_verified_at)
+        {
+            $request->merge([
+                'email_verified_at' => now()
+            ]);
+        }
     }
     
     public static function beforeUpdate(Request $request, $data)

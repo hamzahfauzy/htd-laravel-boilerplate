@@ -48,7 +48,7 @@ class ActivityResource extends Resource
             return static::$model::where('created_by', auth()->id());
         }
 
-        return static::$model;
+        return new static::$model;
     }
 
     public static function getPages()
