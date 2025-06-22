@@ -3,6 +3,7 @@
         // jika name memiliki dot, ubah ke bracket notation
         $inputName = str_contains($name, '.') ? preg_replace('/\./', '][', $name) : $name;
         $inputName = str_contains($name, '.') ? preg_replace('/^(.*?)\]\[/', '$1[', $inputName) . ']' : $inputName;
+        $value = isset($field['value']) ? $field['value'] : \Arr::get($data, $name, '');
     @endphp
     <div class="mb-3">
         <label for="{{ $name }}" class="form-label">{{ $field['label'] ?? ucfirst($name) }}</label>
@@ -20,9 +21,9 @@
                     name="{{ $inputName }}"
                     id="{{ $name }}"
                     class="form-control @error($inputName) is-invalid @enderror"
-                    value="{{ $field['type'] != 'password' ? (old($name) ?? \Arr::get($data, $name, '')) : '' }}"
+                    value="{{ $field['type'] != 'password' ? (old($name) ?? $value) : '' }}"
                     @if (!empty($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
-                    @if ((!empty($field['required']) && $field['type'] != 'password') || (!empty($field['required']) && $field['type'] == 'password' && \Arr::get($data, $name, '') == '')) required @endif
+                    @if ((!empty($field['required']) && $field['type'] != 'password') || (!empty($field['required']) && $field['type'] == 'password' && $value == '')) required @endif
                     {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}
                 >
                 @break
@@ -35,7 +36,7 @@
                     @if (!empty($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                     @if (!empty($field['required'])) required @endif
                     {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}
-                >{{ old($name) ?? \Arr::get($data, $name, '') }}</textarea>
+                >{{ old($name, $value) }}</textarea>
                 @break
 
             @case('select')
@@ -44,7 +45,7 @@
                     <option value="">{{$field['placeholder']}}</option>
                     @endif
                     @foreach ($field['options'] as $key => $option)
-                        <option value="{{ $key }}" @selected(old($name, \Arr::get($data, $name, '')) == $key)>{{ $option }}</option>
+                        <option value="{{ $key }}" @selected(old($name, $value) == $key)>{{ $option }}</option>
                     @endforeach
                 </select>
                 @break
@@ -55,7 +56,7 @@
                     <option value="">{{$field['placeholder']}}</option>
                     @endif
                     @foreach ($field['options'] as $key => $option)
-                        <option value="{{ $key }}" @selected(old($name, \Arr::get($data, $name, '')) == $key)>{{ $option }}</option>
+                        <option value="{{ $key }}" @selected(old($name, $value) == $key)>{{ $option }}</option>
                     @endforeach
                 </select>
                 @break
@@ -64,7 +65,7 @@
                 @foreach ($field['options'] as $key => $option)
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="{{ $name }}[]" id="{{ $name }}_{{ $key }}" value="{{ $key }}"
-                            @if (is_array(old($name, \Arr::get($data, $name, ''))) && in_array($key, old($name, \Arr::get($data, $name, '')))) checked @endif {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
+                            @if (is_array(old($name, $value)) && in_array($key, old($name, $value))) checked @endif {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
                         <label class="form-check-label" for="{{ $name }}_{{ $key }}">
                             {{ $option }}
                         </label>
@@ -79,7 +80,7 @@
                     @foreach($featureItems as $label => $item)
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="{{ $inputName }}[]" id="{{ $name }}_{{$featureName}}_{{ $label }}" value="{{$item}}"
-                            @if (is_array(old($name, \Arr::get($data, $name, ''))) && in_array($item, old($name, \Arr::get($data, $name, '')))) checked @endif {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
+                            @if (is_array(old($name, $value)) && in_array($item, old($name, $value))) checked @endif {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
                         <label class="form-check-label" for="{{ $name }}_{{$featureName}}_{{ $label }}">
                             {{ ucwords($label) }}
                         </label>
@@ -93,7 +94,7 @@
                 @foreach ($field['options'] as $key => $option)
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="{{ $inputName }}" id="{{ $name }}_{{ $key }}" value="{{ $key }}"
-                            @checked(old($name, \Arr::get($data, $name, '')) == $key) {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
+                            @checked(old($name, $value) == $key) {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
                         <label class="form-check-label" for="{{ $name }}_{{ $key }}">
                             {{ $option }}
                         </label>
@@ -107,7 +108,7 @@
                 @break
 
             @default
-                <input type="text" name="{{ $inputName }}" id="{{ $name }}" class="form-control @error($inputName) is-invalid @enderror" value="{{ old($name, \Arr::get($data, $name, '')) }}" {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
+                <input type="text" name="{{ $inputName }}" id="{{ $name }}" class="form-control @error($inputName) is-invalid @enderror" value="{{ old($name, $value) }}" {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
         @endswitch
 
         {{-- Error message --}}

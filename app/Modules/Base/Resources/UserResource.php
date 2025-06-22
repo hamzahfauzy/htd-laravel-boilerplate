@@ -79,6 +79,7 @@ class UserResource extends Resource {
                     'options' => [
                         1 => 'Verified'
                     ],
+                    'value' => [static::$record?->email_verified_at ? 1 : 0],
                     'required' => true,
                 ],
             ],
@@ -181,6 +182,20 @@ class UserResource extends Resource {
         $request->merge([
             'password' => $request->password ? bcrypt($request->password) : $data->password
         ]);
+
+        if(empty($request->email_verified_at))
+        {
+            $request->merge([
+                'email_verified_at' => null
+            ]);
+        }
+
+        if($request->email_verified_at)
+        {
+            $request->merge([
+                'email_verified_at' => now()
+            ]);
+        }
     }
     
     public static function detail()
