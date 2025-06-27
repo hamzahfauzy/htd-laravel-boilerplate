@@ -3,13 +3,13 @@
 @section('title', $header['title'])
 
 @push('styles')
-<link rel="stylesheet" href="https://cdn.datatables.net/2.3.0/css/dataTables.bootstrap5.css">
+<link rel="stylesheet" href="{{asset('css/dataTables.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('css/dataTables.css')}}">
 @endpush
 
 @push('scripts')
-<script src="https://cdn.datatables.net/2.3.0/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.3.0/js/dataTables.bootstrap5.js"></script>
+<script src="{{asset('js/dataTables.js')}}"></script>
+<script src="{{asset('js/dataTables.bootstrap5.js')}}"></script>
 <script src="{{asset('js/datatable.js')}}"></script>
 @endpush
 

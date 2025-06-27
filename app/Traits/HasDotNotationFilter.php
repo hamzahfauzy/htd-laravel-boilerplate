@@ -14,9 +14,14 @@ trait HasDotNotationFilter
         if (str_contains($field, '.')) {
             [$relation, $column] = explode('.', $field, 2);
 
-            return $query->whereHas($relation, function ($q) use ($column, $operator, $value) {
-                $q->where($column, $operator, $value);
-            });
+            if (method_exists($query->getModel(), $relation)) {
+                return $query->whereHas($relation, function ($q) use ($column, $operator, $value) {
+                    $q->where($column, $operator, $value);
+                });
+            } else {
+                // Treat as joined table column
+                return $query->where("{$relation}.{$column}", $operator, $value);
+            }
         }
 
         return $query->where($field, $operator, $value);
@@ -30,9 +35,14 @@ trait HasDotNotationFilter
         if (str_contains($field, '.')) {
             [$relation, $column] = explode('.', $field, 2);
 
-            return $query->orWhereHas($relation, function ($q) use ($column, $operator, $value) {
-                $q->where($column, $operator, $value);
-            });
+            if (method_exists($query->getModel(), $relation)) {
+                return $query->orWhereHas($relation, function ($q) use ($column, $operator, $value) {
+                    $q->where($column, $operator, $value);
+                });
+            } else {
+                // Treat as joined table column
+                return $query->orWhere("{$relation}.{$column}", $operator, $value);
+            }
         }
 
         return $query->orWhere($field, $operator, $value);
