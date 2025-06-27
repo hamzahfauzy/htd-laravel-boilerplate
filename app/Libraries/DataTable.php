@@ -2,6 +2,8 @@
 
 namespace App\Libraries;
 
+use Illuminate\Support\Facades\DB;
+
 class DataTable
 {
     function __construct(private $model, private $fields, private $resource = null) {}
@@ -93,7 +95,12 @@ class DataTable
             }
         }
 
-        $total = $model->count();
+        // $total = $model->get()->count();
+        $groupedQuery = $model->cloneWithout(['limit', 'offset', 'orders'])->toBase();
+
+        $total = DB::table(DB::raw("({$groupedQuery->toSql()}) as grouped"))
+                    ->mergeBindings($groupedQuery)
+                    ->count();
         $data = $model->offset($start)->limit($length)->get();
         $results = $data->map(function ($d, $index) use ($fields, $start) {
             $final = [$start + $index + 1];
