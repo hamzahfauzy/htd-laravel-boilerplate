@@ -67,21 +67,23 @@ class DataTable
         if (count($search_columns)) {
             $model = $model->when($filter['value'] ?? false, function ($q, $search) use ($search_columns) {
                 if (!empty($search)) {
-                    foreach ($search_columns as $index => $column) {
-                        if ($index == 0) {
-                            if (strpos($column, '.') > -1) {
-                                $q->whereDot($column, 'LIKE', "%$search%");
+                    $q->where(function($query) use ($search, $search_columns){
+                        foreach ($search_columns as $index => $column) {
+                            if ($index == 0) {
+                                if (strpos($column, '.') > -1) {
+                                    $query->whereDot($column, 'LIKE', "%$search%");
+                                } else {
+                                    $query->where($column, 'LIKE', "%$search%");
+                                }
                             } else {
-                                $q->where($column, 'LIKE', "%$search%");
-                            }
-                        } else {
-                            if (strpos($column, '.') > -1) {
-                                $q->orWhereDot($column, 'LIKE', "%$search%");
-                            } else {
-                                $q->orWhere($column, 'LIKE', "%$search%");
+                                if (strpos($column, '.') > -1) {
+                                    $query->orWhereDot($column, 'LIKE', "%$search%");
+                                } else {
+                                    $query->orWhere($column, 'LIKE', "%$search%");
+                                }
                             }
                         }
-                    }
+                    });
                 }
             });
         }
