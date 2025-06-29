@@ -284,7 +284,7 @@ abstract class Resource
 
     public static function addStyles($additionalStyles)
     {
-        static::$additionalStyles = $additionalStyles;
+        static::$additionalStyles = array_merge($additionalStyles, static::$additionalStyles);
     }
 
     public static function getStyles()
@@ -294,7 +294,7 @@ abstract class Resource
 
     public static function addScripts($additionalScripts)
     {
-        static::$additionalScripts = $additionalScripts;
+        static::$additionalScripts = array_merge($additionalScripts, static::$additionalScripts);
     }
 
     public static function getScripts()

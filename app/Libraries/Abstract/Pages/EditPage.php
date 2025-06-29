@@ -19,6 +19,10 @@ class EditPage extends Page
         $this->resource::mount();
         $data = $this->resource::getModel()->find($id);
         $this->resource::setRecord($data);
+
+        $this->resource::addScripts([
+            'https://cdn.tiny.cloud/1/rsb9a1wqmvtlmij61ssaqj3ttq18xdwmyt7jg23sg1ion6kn/tinymce/7/tinymce.min.js'
+        ]);
         
         $header = $this->resource::editHeader();
         $sections = $this->resource::form();

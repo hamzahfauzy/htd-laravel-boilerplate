@@ -39,6 +39,17 @@
                 >{{ old($name, $value) }}</textarea>
                 @break
 
+            @case('texteditor')
+                <textarea
+                    name="{{ $inputName }}"
+                    id="{{ $name }}"
+                    class="form-control text-editor @error($inputName) is-invalid @enderror"
+                    @if (!empty($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
+                    @if (!empty($field['required'])) required @endif
+                    {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}
+                >{{ old($name, $value) }}</textarea>
+                @break
+
             @case('select')
                 <select name="{{ $inputName }}" id="{{ $name }}" class="form-control form-select @error($inputName) is-invalid @enderror" {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>
                     @if(isset($field['placeholder']))
