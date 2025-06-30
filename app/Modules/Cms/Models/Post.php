@@ -29,9 +29,37 @@ class Post extends Model
         'created_by'
     ];
 
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param  \DateTimeInterface  $date
+     * @return string
+     */
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
     public function postables()
     {
         return $this->hasMany(Postable::class);
+    }
+
+    public function getCategoryListAttribute()
+    {
+        $categories = $this->categories->map(function($category){
+           return $category->name; 
+        });
+
+        return implode(',', $categories->toArray());
+    }
+    
+    public function getCategoryIdsAttribute()
+    {
+
+        $categories = $this->categories->pluck('id')->toArray();
+
+        return $categories;
     }
 
 }
