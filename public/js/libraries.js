@@ -16,6 +16,7 @@ $(document).ready(function(){
         if (file) {
             var formData = new FormData();
             formData.append('file', file); // 'myFile' matches the name attribute in HTML
+            formData.append('type', 'file'); // 'myFile' matches the name attribute in HTML
             formData.append('_token', $('meta[name=csrf-token]').attr('content')); // 'myFile' matches the name attribute in HTML
             fetch('/cms/upload-media', {
                 method: 'POST',
@@ -31,10 +32,36 @@ $(document).ready(function(){
             })
         }
     })
+
+    $('.libraries-media-upload').change(function(){
+        var targetInput = this.dataset.target
+        var file = this.files[0]; // Get the first selected file
+        if (file) {
+            var formData = new FormData();
+            formData.append('file', file); // 'myFile' matches the name attribute in HTML
+            formData.append('type', 'media'); // 'myFile' matches the name attribute in HTML
+            formData.append('_token', $('meta[name=csrf-token]').attr('content')); // 'myFile' matches the name attribute in HTML
+            fetch('/cms/upload-media', {
+                method: 'POST',
+                'content-type': 'multipart/form-data',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(res => {
+                $('[name='+targetInput+']').val(res.data.id)
+            })
+            .catch(error => {
+
+            })
+        }
+    })
 })
 
-tinymce.init({
-    selector: 'textarea.text-editor',
-    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-});
+if (typeof tinymce !== 'undefined')
+{
+    tinymce.init({
+        selector: 'textarea.text-editor',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    });
+}

@@ -266,6 +266,7 @@ abstract class Resource
 
         $data = static::$model::find($id);
         static::beforeUpdate($request, $data);
+        $data->touch();
         $data->update($request->all());
         static::afterUpdate($request, $data);
 

@@ -117,6 +117,11 @@
                 <input type="hidden" name="{{ $inputName }}" id="{{ $name }}">
                 <input type="file" name="file_upload_{{$name}}" id="{{ $name }}" data-target="{{$name}}" class="form-control @error('file_upload_'.$inputName) is-invalid @enderror libraries-file-upload">
                 @break
+            
+            @case('media')
+                <input type="hidden" name="{{ $inputName }}" id="{{ $name }}">
+                <input type="file" name="media_upload_{{$name}}" id="{{ $name }}" data-target="{{$name}}" class="form-control @error('media_upload_'.$inputName) is-invalid @enderror libraries-media-upload">
+                @break
 
             @default
                 <input type="text" name="{{ $inputName }}" id="{{ $name }}" class="form-control @error($inputName) is-invalid @enderror" value="{{ old($name, $value) }}" {{isset($field['readonly']) ? 'readonly="'. $field['readonly'] .'"' : ''}}>

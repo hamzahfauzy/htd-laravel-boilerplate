@@ -6,6 +6,7 @@ use App\Libraries\Abstract\Resource;
 use App\Modules\Cms\Models\Category;
 use App\Modules\Cms\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostResource extends Resource {
 
@@ -76,6 +77,10 @@ class PostResource extends Resource {
                     ],
                     'required' => true,
                 ],
+                'thumbnail' => [
+                    'label' => 'Thumbnail',
+                    'type' => 'media',
+                ],
             ]
         ];
     }
@@ -110,6 +115,12 @@ class PostResource extends Resource {
                 'visibility' => 'Visibility',
                 'categoryList' => 'Category',
                 'content' => 'Content',
+                'thumbnail' => [
+                    'label' => 'Thumbnail',
+                    'content' => function($value) {
+                        return '<a href="'.Storage::url($value->filename).'" target="_blank">Lihat</a>';
+                    }
+                ],
             ],
         ];
     }

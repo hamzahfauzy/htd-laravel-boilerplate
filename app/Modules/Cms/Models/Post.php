@@ -14,6 +14,8 @@ class Post extends Model
     use HasFactory, SoftDeletes, HasCreator, HasMedia, HasCategory;
 
     protected $table = 'base_posts';
+    protected $mediaField = 'thumbnail';
+    protected $appends = ['thumbnail'];
 
     /**
      * The attributes that are mass assignable.
@@ -56,10 +58,14 @@ class Post extends Model
     
     public function getCategoryIdsAttribute()
     {
-
         $categories = $this->categories->pluck('id')->toArray();
 
         return $categories;
+    }
+
+    public function getThumbnailAttribute()
+    {
+        return $this->mediable()->wherePivot('record_type', $this->mediaField)->first();
     }
 
 }
