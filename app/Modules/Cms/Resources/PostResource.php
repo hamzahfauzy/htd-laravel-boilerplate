@@ -118,7 +118,7 @@ class PostResource extends Resource {
                 'thumbnail' => [
                     'label' => 'Thumbnail',
                     'content' => function($value) {
-                        return '<a href="'.Storage::url($value->filename).'" target="_blank">Lihat</a>';
+                        return $value ? '<a href="'.Storage::url($value->filename).'" target="_blank">Lihat</a>' : '';
                     }
                 ],
             ],
