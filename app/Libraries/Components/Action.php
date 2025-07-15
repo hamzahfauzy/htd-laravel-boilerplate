@@ -2,13 +2,18 @@
 
 namespace App\Libraries\Components;
 
+use Illuminate\Support\Facades\Route;
+
 class Action
 {
     static function getDefault($resource, $data)
     {
+        $detailPage = $resource::getPages()['detail'];
+        $routePath = str_replace('{','',$detailPage->getRoute());
+        $routePath = str_replace('}','',$routePath);
         $buttons = [
             'view' => (new Button([
-                'url' => $resource::getPageRoute('detail', ['id' => $data->id]),
+                'url' => $resource::getPageRoute('detail', [$routePath => $data->{$routePath}]),
                 'label' => 'Detail',
                 'class' => 'dropdown-item',
                 'icon' => 'fas fa-fw fa-eye'
