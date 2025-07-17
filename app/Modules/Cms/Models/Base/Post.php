@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Base;
+namespace App\Modules\Cms\Models\Base;
 
 use App\Modules\Cms\Models\Scopes\Base\PostScope;
 
