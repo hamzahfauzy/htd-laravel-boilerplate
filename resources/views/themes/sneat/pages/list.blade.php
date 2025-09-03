@@ -5,6 +5,7 @@
 @push('styles')
 <link rel="stylesheet" href="{{asset('css/dataTables.bootstrap5.css')}}">
 <link rel="stylesheet" href="{{asset('css/dataTables.css')}}">
+<style>table.datatable{width:100% !important;}table.datatable thead th {white-space: nowrap;}</style>
 @endpush
 
 @push('scripts')

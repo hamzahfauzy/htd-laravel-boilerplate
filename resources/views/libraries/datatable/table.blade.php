@@ -1,5 +1,5 @@
-<div class="">
-    <table class="table {{$class}} table-responsive">
+<div class="card-datatable overflow-hidden">
+    <table class="table {{$class}}">
         <thead>
             <tr>
                 @foreach($columns as $column)
