@@ -10,12 +10,14 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
-class LoginController extends ApiController {
+class LoginController extends ApiController
+{
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
         ]);
 
@@ -25,38 +27,42 @@ class LoginController extends ApiController {
             'password' => Hash::make($request->password),
         ]);
 
+        $token = $user->createToken($user->name . '-AuthToken')->plainTextToken;
+
         Activity::create([
             'action' => 'Register',
             'description' => 'A user was registered into the system',
-            'data' => $user->makeHidden(['roles','userRoleLabel','verifiedStatusBadge','verifiedStatus'])
+            'data' => $user->makeHidden(['roles', 'userRoleLabel', 'verifiedStatusBadge', 'verifiedStatus'])
         ]);
 
-        return $this->response($user, 'register success');
+        return $this->response(['user' => $user, 'access_token' => $token], 'register success');
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
 
         $loginUserData = $request->validate([
-            'email'=>'required|string|email',
-            'password'=>'required|min:8'
+            'email' => 'required|string|email',
+            'password' => 'required|min:8'
         ]);
 
         $user = User::where('email', $loginUserData['email'])->first();
-        
-        if(!$user || !Hash::check($loginUserData['password'],$user->password)){
+
+        if (!$user || !Hash::check($loginUserData['password'], $user->password)) {
             return $this->response([], 'invalid credentials', 400);
         }
-        
-        $token = $user->createToken($user->name.'-AuthToken')->plainTextToken;
+
+        $token = $user->createToken($user->name . '-AuthToken')->plainTextToken;
 
         Activity::create([
             'action' => 'Login',
             'description' => 'A user has logged into the system',
-            'data' => $user->makeHidden(['roles','userRoleLabel','verifiedStatusBadge','verifiedStatus'])
+            'data' => $user->makeHidden(['roles', 'userRoleLabel', 'verifiedStatusBadge', 'verifiedStatus'])
         ]);
 
         return $this->response([
             'access_token' => $token,
+            'user' => $user
         ], 'login success');
     }
 
@@ -79,8 +85,8 @@ class LoginController extends ApiController {
         );
 
         return $status == Password::RESET_LINK_SENT
-                    ? $this->response([], __($status))
-                    : $this->response([], __($status), 400);
+            ? $this->response([], __($status))
+            : $this->response([], __($status), 400);
     }
 
     public function resetPassword(Request $request)
@@ -106,23 +112,22 @@ class LoginController extends ApiController {
         Activity::create([
             'action' => 'Reset Password',
             'description' => 'A user ',
-            'data' => $user->makeHidden(['roles','userRoleLabel','verifiedStatusBadge','verifiedStatus'])
+            'data' => $user->makeHidden(['roles', 'userRoleLabel', 'verifiedStatusBadge', 'verifiedStatus'])
         ]);
 
         return $this->response([], __($status), $status === Password::PASSWORD_RESET ? 200 : 400);
-        
     }
 
-    public function logout(){
+    public function logout()
+    {
         auth()->user()->tokens()->delete();
 
         Activity::create([
             'action' => 'Logout',
             'description' => 'A user has logged out from the system',
-            'data' => auth()->user()->makeHidden(['roles','userRoleLabel','verifiedStatusBadge','verifiedStatus'])
+            'data' => auth()->user()->makeHidden(['roles', 'userRoleLabel', 'verifiedStatusBadge', 'verifiedStatus'])
         ]);
 
         return $this->response([], 'logout success');
     }
-
 }
